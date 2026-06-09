@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
+import { SortSelect } from "./SortSelect";
 import { ja } from "date-fns/locale";
 
 export default async function PostsPage({
@@ -100,12 +101,7 @@ export default async function PostsPage({
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             {/* Sort */}
-            <select defaultValue={sort} onChange={e => { window.location.href = `/${teamSlug}/posts?sort=${e.target.value}${wip ? "&wip="+wip : ""}${q ? "&q="+encodeURIComponent(q) : ""}`; }} style={{ fontSize: 12, padding: "4px 6px", border: "1px solid var(--border)", borderRadius: 3, color: "var(--text-secondary)", background: "var(--bg-card)", cursor: "pointer", outline: "none" }}>
-              <option value="updated">更新日時が新しい順</option>
-              <option value="created">作成日時が新しい順</option>
-              <option value="stars">Starの多い順</option>
-              <option value="comments">コメントの多い順</option>
-            </select>
+            <SortSelect teamSlug={teamSlug} sort={sort} wip={wip} q={q} />
             <Link href={`/${teamSlug}/posts/new`} style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 12px", background: "var(--accent)", color: "#fff", borderRadius: 3, fontWeight: 600, fontSize: 12, textDecoration: "none" }}>
               ✏️ New Post
             </Link>
