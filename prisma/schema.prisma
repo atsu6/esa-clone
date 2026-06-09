@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -79,7 +78,7 @@ model TeamMember {
   id       String   @id @default(cuid())
   teamId   String
   userId   String
-  role     String   @default("member") // owner, admin, member
+  role     String   @default("member")
   joinedAt DateTime @default(now())
 
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
@@ -89,23 +88,23 @@ model TeamMember {
 }
 
 model Post {
-  id          String   @id @default(cuid())
-  number      Int
-  teamId      String
-  authorId    String
-  title       String
-  body        String   @default("")
-  bodyMd      String   @default("")
-  tags        String   @default("") // comma-separated
-  category    String?
-  wip         Boolean  @default(true)
-  message     String?
-  starCount   Int      @default(0)
-  watchersCount Int    @default(0)
-  commentCount  Int    @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  publishedAt DateTime?
+  id            String    @id @default(cuid())
+  number        Int
+  teamId        String
+  authorId      String
+  title         String
+  body          String    @default("")
+  bodyMd        String    @default("")
+  tags          String    @default("")
+  category      String?
+  wip           Boolean   @default(true)
+  message       String?
+  starCount     Int       @default(0)
+  watchersCount Int       @default(0)
+  commentCount  Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  publishedAt   DateTime?
 
   team     Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
   author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
