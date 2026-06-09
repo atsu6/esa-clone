@@ -15,40 +15,40 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    const result = await signIn("credentials", {
-      email, password, redirect: false,
-    });
+    const result = await signIn("credentials", { email, password, redirect: false });
     setLoading(false);
-    if (result?.error) {
-      setError("メールアドレスまたはパスワードが正しくありません");
-    } else {
-      router.push("/");
-      router.refresh();
-    }
+    if (result?.error) setError("メールアドレスまたはパスワードが正しくありません");
+    else { router.push("/"); router.refresh(); }
   }
 
   return (
-    <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg)" }}>
-      <div style={{ background: "var(--bg-card)", borderRadius: "var(--radius-lg)", padding: "2.5rem", width: "100%", maxWidth: 400, boxShadow: "var(--shadow-md)", border: "1px solid var(--border)" }}>
-        <h1 style={{ fontSize: "1.4rem", fontWeight: 700, marginBottom: "1.5rem", textAlign: "center" }}>ログイン</h1>
-        {error && <div style={{ background: "#fff0f0", border: "1px solid #fca5a5", borderRadius: "var(--radius)", padding: "0.6rem 0.8rem", marginBottom: "1rem", color: "#b91c1c", fontSize: "0.9rem" }}>{error}</div>}
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <label style={{ display: "flex", flexDirection: "column", gap: "0.35rem", fontSize: "0.875rem", fontWeight: 500 }}>
+    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f5f5f5" }}>
+      <div style={{ background: "#fff", border: "1px solid #e0e0e0", borderRadius: 4, padding: "32px 36px", width: "100%", maxWidth: 380 }}>
+        <div style={{ textAlign: "center", marginBottom: 24 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 44, height: 44, background: "var(--accent)", borderRadius: 8, marginBottom: 12 }}>
+            <span style={{ fontSize: 22 }}>(\( ⁰⊖⁰)/)</span>
+          </div>
+          <h1 style={{ fontSize: 18, fontWeight: 700 }}>esa clone</h1>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>チームの情報を育てよう</p>
+        </div>
+        {error && <div style={{ background: "#fff0f0", border: "1px solid #fcc", borderRadius: 3, padding: "8px 12px", marginBottom: 14, color: "var(--red)", fontSize: 12 }}>{error}</div>}
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary)", display: "flex", flexDirection: "column", gap: 4 }}>
             メールアドレス
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)} required style={{ padding: "0.55rem 0.75rem", border: "1px solid var(--border)", borderRadius: "var(--radius)", fontSize: "0.95rem", outline: "none", background: "var(--bg)" }} />
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} required style={{ padding: "7px 10px", border: "1px solid var(--border)", borderRadius: 3, fontSize: 13, outline: "none", background: "#fff" }} />
           </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: "0.35rem", fontSize: "0.875rem", fontWeight: 500 }}>
+          <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary)", display: "flex", flexDirection: "column", gap: 4 }}>
             パスワード
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} required style={{ padding: "0.55rem 0.75rem", border: "1px solid var(--border)", borderRadius: "var(--radius)", fontSize: "0.95rem", outline: "none", background: "var(--bg)" }} />
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} required style={{ padding: "7px 10px", border: "1px solid var(--border)", borderRadius: 3, fontSize: 13, outline: "none", background: "#fff" }} />
           </label>
-          <button type="submit" disabled={loading} style={{ padding: "0.65rem", background: "var(--accent)", color: "#fff", border: "none", borderRadius: "var(--radius)", fontWeight: 600, fontSize: "0.95rem", cursor: "pointer", marginTop: "0.25rem" }}>
+          <button type="submit" disabled={loading} style={{ padding: "8px", background: "var(--accent)", color: "#fff", border: "none", borderRadius: 3, fontWeight: 700, fontSize: 13, cursor: "pointer", marginTop: 4 }}>
             {loading ? "ログイン中..." : "ログイン"}
           </button>
         </form>
-        <p style={{ marginTop: "1.25rem", textAlign: "center", fontSize: "0.875rem", color: "var(--text-secondary)" }}>
-          アカウントをお持ちでない方は <Link href="/register">新規登録</Link>
+        <p style={{ marginTop: 16, textAlign: "center", fontSize: 12, color: "var(--text-muted)" }}>
+          アカウントをお持ちでない方は <Link href="/register" style={{ color: "var(--accent)", fontWeight: 600 }}>新規登録</Link>
         </p>
       </div>
-    </main>
+    </div>
   );
 }
