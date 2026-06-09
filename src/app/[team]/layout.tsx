@@ -9,13 +9,14 @@ export default async function Layout({
   params,
 }: {
   children: React.ReactNode;
-  params: { team: string };
+  params: Promise<{ team: string }>;
 }) {
+  const { team: teamSlug } = await params;
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login");
 
   const team = await db.team.findUnique({
-    where: { screenName: params.team },
+    where: { screenName: teamSlug },
     include: {
       members: {
         where: { userId: session.user.id },
