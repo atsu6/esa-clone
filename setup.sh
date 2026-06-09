@@ -17,11 +17,14 @@ fi
 echo "📦 npm install..."
 npm install
 
+# Prismaクライアント生成
+echo "⚙️  prisma generate..."
+DATABASE_URL="file:./dev.db" npx prisma generate
+
 # DB セットアップ
 echo "🗄  prisma db push..."
 DATABASE_URL="file:./dev.db" npx prisma db push
 
 echo ""
 echo "✅ セットアップ完了！"
-echo "👉 npm run dev で起動してください"
-echo "   → http://localhost:3000"
+echo "👉 npm run dev で起動 → http://localhost:3000"
