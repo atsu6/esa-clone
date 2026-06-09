@@ -6,6 +6,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { PostActions } from "./PostActions";
 import { CommentSection } from "./CommentSection";
+import { MarkdownBody } from "./MarkdownBody";
 
 export default async function PostDetailPage({
   params,
@@ -16,7 +17,6 @@ export default async function PostDetailPage({
   if (!session) redirect("/login");
 
   const { team: teamSlug, number: numberStr } = await params;
-
   const team = await db.team.findUnique({ where: { screenName: teamSlug } });
   if (!team) redirect("/");
 
@@ -75,11 +75,7 @@ export default async function PostDetailPage({
           )}
         </div>
         <div className="prose">
-          {post.bodyMd ? (
-            <MarkdownBody content={post.bodyMd} />
-          ) : (
-            <p style={{ color: "var(--text-muted)", fontStyle: "italic" }}>（本文なし）</p>
-          )}
+          <MarkdownBody content={post.bodyMd} />
         </div>
       </article>
 
@@ -87,21 +83,4 @@ export default async function PostDetailPage({
       <CommentSection postId={post.id} comments={post.comments as any} currentUserId={session.user.id} />
     </div>
   );
-}
-
-function MarkdownBody({ content }: { content: string }) {
-  const html = content
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    .replace(/^#{6} (.+)$/gm, "<h6>$1</h6>").replace(/^##### (.+)$/gm, "<h5>$1</h5>")
-    .replace(/^#### (.+)$/gm, "<h4>$1</h4>").replace(/^### (.+)$/gm, "<h3>$1</h3>")
-    .replace(/^## (.+)$/gm, "<h2>$1</h2>").replace(/^# (.+)$/gm, "<h1>$1</h1>")
-    .replace(/^---$/gm, "<hr>")
-    .replace(/```[\w]*\n([\s\S]*?)```/gm, "<pre><code>$1</code></pre>")
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>")
-    .replace(/`(.+?)`/g, "<code>$1</code>")
-    .replace(/^> (.+)$/gm, "<blockquote>$1</blockquote>")
-    .replace(/^- (.+)$/gm, "<li>$1</li>")
-    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-    .replace(/\n\n/g, "</p><p>").replace(/\n/g, "<br>");
-  return <div dangerouslySetInnerHTML={{ __html: `<p>${html}</p>` }} />;
 }
