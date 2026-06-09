@@ -13,17 +13,16 @@ else
   echo "✅ .env.local は既に存在します"
 fi
 
-# パッケージインストール
+# グローバルのprismaを使わせない
 echo "📦 npm install..."
 npm install
 
-# Prismaクライアント生成
+# ローカルのprisma（v5）を明示的に使う
 echo "⚙️  prisma generate..."
-DATABASE_URL="file:./dev.db" npx prisma generate
+DATABASE_URL="file:./dev.db" ./node_modules/.bin/prisma generate
 
-# DB セットアップ
 echo "🗄  prisma db push..."
-DATABASE_URL="file:./dev.db" npx prisma db push
+DATABASE_URL="file:./dev.db" ./node_modules/.bin/prisma db push
 
 echo ""
 echo "✅ セットアップ完了！"
