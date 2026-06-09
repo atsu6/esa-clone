@@ -13,4 +13,7 @@ export default defineConfig({
       return new PrismaLibSql(client);
     },
   },
+  datasource: {
+    url: process.env.DATABASE_URL ?? "file:./dev.db",
+  },
 });
